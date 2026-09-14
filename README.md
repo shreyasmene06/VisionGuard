@@ -9,6 +9,7 @@
 A modular, headless Computer Vision engineering project for automated road surface inspection, defect detection, geometric measurement, severity scoring, and ASTM D6433 Pavement Condition Indexing.
 
 - **Author:** Shreyas Mene
+- **Registration No.:** 24BAI10018
 - **Coursework:** CS480 Computer Vision Engineering
 - **Repository:** [https://github.com/shreyasmene06/VisionGuard](https://github.com/shreyasmene06/VisionGuard)
 

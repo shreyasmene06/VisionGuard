@@ -2,6 +2,7 @@
 
 **Coursework Project:** CS480 Computer Vision Engineering  
 **Student Name:** Shreyas Mene  
+**Registration No.:** 24BAI10018  
 **System Name:** VisionGuard (Road Surface Hazard Detection and Severity Mapping)  
 
 ---
