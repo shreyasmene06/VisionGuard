@@ -1,0 +1,27 @@
+
+digraph Sequence {
+    graph [rankdir=TB, bgcolor="#0f141c", fontname="Helvetica", pad="0.4", nodesep="0.6", ranksep="0.5"];
+    node [shape=box, style="filled,rounded", fontname="Helvetica", fontsize=11, fontcolor="#ffffff", penwidth=1.5];
+    edge [fontname="Helvetica", fontsize=9, fontcolor="#a0aec0", color="#4a5568", arrowsize=0.8, penwidth=1.2];
+
+    cli [label="CLI / User\n(run_pipeline.py)", fillcolor="#1a365d", color="#3182ce"];
+    pipe [label="VisionGuardPipeline", fillcolor="#2b6cb0", color="#4299e1"];
+    prep [label="ImagePreprocessor", fillcolor="#1d4044", color="#38b2ac"];
+    det [label="HazardDetector\n(YOLO / Classical)", fillcolor="#7b341e", color="#ed8936"];
+    sev [label="SeverityEngine", fillcolor="#44337a", color="#9f7aea"];
+    ana [label="RoadAnalyzer", fillcolor="#553c9a", color="#b794f4"];
+    vis [label="RoadVisualizer", fillcolor="#1c4532", color="#48bb78"];
+
+    cli -> pipe [label="1. process_image(path, opts)"];
+    pipe -> prep [label="2. preprocess(raw_img)"];
+    prep -> pipe [label="3. PreprocessResult (CLAHE + Denoise)"];
+    pipe -> det [label="4. detect(processed_img)"];
+    det -> pipe [label="5. DetectionResult (boxes, classes, conf)"];
+    pipe -> sev [label="6. assess_all(detections, img_shape)"];
+    sev -> pipe [label="7. List[HazardSeverityAssessment]"];
+    pipe -> ana [label="8. analyze(assessments)"];
+    ana -> pipe [label="9. RoadConditionAnalysis (PCI, state)"];
+    pipe -> vis [label="10. annotate(img, analysis)"];
+    vis -> pipe [label="11. Saved annotated image"];
+    pipe -> cli [label="12. PipelineResult (JSON/CSV written)"];
+}

@@ -1,0 +1,44 @@
+
+digraph UseCase {
+    graph [rankdir=LR, bgcolor="#0f141c", fontname="Helvetica", pad="0.4", nodesep="0.5", ranksep="0.8"];
+    node [fontname="Helvetica", fontsize=11, fontcolor="#ffffff", penwidth=1.5];
+    edge [fontname="Helvetica", fontsize=9, fontcolor="#a0aec0", color="#4a5568", arrowsize=0.8, penwidth=1.2];
+
+    actor_engineer [shape=oval, label="Municipal Road\nEngineer / Inspector", fillcolor="#1a365d", style="filled", color="#4299e1"];
+    actor_evaluator [shape=oval, label="Academic Automated\nCourse Evaluator", fillcolor="#2c5282", style="filled", color="#63b3ed"];
+    actor_ops [shape=oval, label="Highway Maintenance\nRepair Crew", fillcolor="#2b6cb0", style="filled", color="#90cdf4"];
+
+    subgraph cluster_boundary {
+        label = "VisionGuard System Boundary";
+        fontcolor = "#e2e8f0";
+        color = "#4a5568";
+        style = "dashed,rounded";
+        bgcolor = "#171f2c";
+        node [shape=ellipse, style="filled", fillcolor="#2d3748", color="#718096"];
+
+        uc_cli [label="Execute Headless CLI\n(--input, --output)", color="#4fd1c5"];
+        uc_pothole [label="Detect Road Hazards\n(Potholes, Cracks, Debris)", color="#f6ad55"];
+        uc_severity [label="Compute Deterministic\nSeverity Scores", color="#b794f4"];
+        uc_pci [label="Calculate Pavement\nCondition Index (PCI)", color="#d6bcfa"];
+        uc_hud [label="Generate Color-Coded\nHUD Telemetry Visuals", color="#68d391"];
+        uc_export [label="Export Machine-Readable\nJSON & CSV Logs", color="#68d391"];
+        uc_eval [label="Run Precision/Recall\n& mAP Evaluation", color="#f687b3"];
+    }
+
+    actor_engineer -> uc_cli;
+    actor_engineer -> uc_pci;
+    actor_engineer -> uc_hud;
+
+    actor_evaluator -> uc_cli;
+    actor_evaluator -> uc_eval;
+    actor_evaluator -> uc_export;
+
+    actor_ops -> uc_severity;
+    actor_ops -> uc_hud;
+
+    uc_cli -> uc_pothole [label="<<include>>", style="dashed"];
+    uc_pothole -> uc_severity [label="<<include>>", style="dashed"];
+    uc_severity -> uc_pci [label="<<include>>", style="dashed"];
+    uc_pci -> uc_hud [label="<<include>>", style="dashed"];
+    uc_pci -> uc_export [label="<<include>>", style="dashed"];
+}

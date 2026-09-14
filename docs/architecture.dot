@@ -1,0 +1,90 @@
+
+digraph Architecture {
+    graph [rankdir=TB, bgcolor="#0f141c", fontname="Helvetica", pad="0.4", nodesep="0.6", ranksep="0.7"];
+    node [shape=box, style="filled,rounded", fontname="Helvetica", fontsize=11, fontcolor="#ffffff", penwidth=1.5];
+    edge [fontname="Helvetica", fontsize=9, fontcolor="#a0aec0", color="#4a5568", arrowsize=0.8, penwidth=1.2];
+
+    subgraph cluster_input {
+        label = "Layer 1: Input & Ingestion";
+        fontcolor = "#63b3ed";
+        color = "#2b6cb0";
+        style = "dashed,rounded";
+        bgcolor = "#171f2c";
+
+        inp_single [label="Single Road Image\n(Dashcam / Mobile RGB)", fillcolor="#1a365d", color="#3182ce"];
+        inp_batch [label="Batch Image Directory\n(Survey Corridor Frames)", fillcolor="#1a365d", color="#3182ce"];
+        inp_cli [label="CLI Argument Parser\n(--input, --model, --conf)", fillcolor="#2a4365", color="#4299e1"];
+    }
+
+    subgraph cluster_preprocessing {
+        label = "Layer 2: Preprocessing & Normalization";
+        fontcolor = "#4fd1c5";
+        color = "#285e61";
+        style = "dashed,rounded";
+        bgcolor = "#142429";
+
+        prep_val [label="Input Integrity Validation\n(Min dims, corrupt check)", fillcolor="#1d4044", color="#319795"];
+        prep_clahe [label="Adaptive Contrast (CLAHE)\n(L-channel equalization)", fillcolor="#1d4044", color="#38b2ac"];
+        prep_denoise [label="Bilateral Edge-Preserving Filter\n(Asphalt grain suppression)", fillcolor="#1d4044", color="#38b2ac"];
+        prep_roi [label="Drivable ROI Masking\n(Horizon / sky exclusion)", fillcolor="#1d4044", color="#4fd1c5"];
+    }
+
+    subgraph cluster_detection {
+        label = "Layer 3: Multi-Mode Hazard Detection";
+        fontcolor = "#f6ad55";
+        color = "#7b341e";
+        style = "dashed,rounded";
+        bgcolor = "#261a1a";
+
+        det_yolo [label="Deep Learning Engine\n(YOLOv8 Feature Pyramid + Head)", fillcolor="#742a2a", color="#e53e3e"];
+        det_cv [label="Classical CV Fallback\n(Black-Hat + Directional Kernels)", fillcolor="#7b341e", color="#dd6b20"];
+        det_nms [label="Non-Maximum Suppression (NMS)\n(IoU Overlap Suppression)", fillcolor="#652b19", color="#ed8936"];
+    }
+
+    subgraph cluster_analytics {
+        label = "Layer 4: Geometric Analysis & Severity Quantification";
+        fontcolor = "#b794f4";
+        color = "#553c9a";
+        style = "dashed,rounded";
+        bgcolor = "#1f1a2e";
+
+        sev_geom [label="Geometric Descriptors\n(Area px, Relative %, Aspect Ratio)", fillcolor="#44337a", color="#805ad5"];
+        sev_prox [label="Perspective Proximity\n(Near-field Wheel Path Weight)", fillcolor="#44337a", color="#9f7aea"];
+        sev_calc [label="Severity Index Formulation\n(0-100 Score & Tier Mapping)", fillcolor="#553c9a", color="#b794f4"];
+        pci_calc [label="ASTM D6433 Pavement Condition\n(PCI Deduct Aggregation)", fillcolor="#553c9a", color="#d6bcfa"];
+    }
+
+    subgraph cluster_output {
+        label = "Layer 5: Visualization & Headless Reporting";
+        fontcolor = "#68d391";
+        color = "#22543d";
+        style = "dashed,rounded";
+        bgcolor = "#13231b";
+
+        vis_annot [label="HUD Annotated Image\n(Corner brackets, pills, telemetry)", fillcolor="#1c4532", color="#38a169"];
+        rep_json [label="Structured JSON Telemetry\n(Inspection results & coordinates)", fillcolor="#1c4532", color="#48bb78"];
+        rep_csv [label="Engineering CSV Logs\n(Detections & PCI summaries)", fillcolor="#1c4532", color="#68d391"];
+    }
+
+    // Connections
+    inp_single -> inp_cli;
+    inp_batch -> inp_cli;
+    inp_cli -> prep_val;
+    prep_val -> prep_clahe;
+    prep_clahe -> prep_denoise;
+    prep_denoise -> prep_roi;
+
+    prep_roi -> det_yolo [label="RGB Tensor"];
+    prep_roi -> det_cv [label="Grayscale/Morph"];
+    det_yolo -> det_nms;
+    det_cv -> det_nms;
+
+    det_nms -> sev_geom;
+    sev_geom -> sev_prox;
+    sev_prox -> sev_calc;
+    sev_calc -> pci_calc;
+
+    pci_calc -> vis_annot;
+    pci_calc -> rep_json;
+    pci_calc -> rep_csv;
+}

@@ -1,0 +1,21 @@
+
+digraph Workflow {
+    graph [rankdir=LR, bgcolor="#0f141c", fontname="Helvetica", pad="0.4", nodesep="0.5", ranksep="0.6"];
+    node [shape=box, style="filled,rounded", fontname="Helvetica", fontsize=11, fontcolor="#ffffff", penwidth=1.5];
+    edge [fontname="Helvetica", fontsize=9, fontcolor="#a0aec0", color="#4a5568", arrowsize=0.8, penwidth=1.2];
+
+    start [shape=ellipse, label="Raw Image Ingestion", fillcolor="#2b6cb0", color="#63b3ed"];
+    val [label="Integrity Check\n& Color Standardize", fillcolor="#1a365d", color="#3182ce"];
+    clahe [label="CLAHE Illumination\nBalancing", fillcolor="#1d4044", color="#38b2ac"];
+    denoise [label="Bilateral Texture\nDenoising", fillcolor="#1d4044", color="#38b2ac"];
+    detect [label="Multi-Class Hazard\nDetection", fillcolor="#7b341e", color="#ed8936"];
+    filter_nms [label="Confidence Filter\n& NMS Merging", fillcolor="#652b19", color="#dd6b20"];
+    extract_geom [label="Geometric & Proximity\nExtraction", fillcolor="#44337a", color="#9f7aea"];
+    calc_sev [label="Mathematical\nSeverity Scoring", fillcolor="#553c9a", color="#b794f4"];
+    pci_deduct [label="ASTM D6433 PCI\nState Calculation", fillcolor="#4c1d95", color="#c084fc"];
+    render [label="Headless HUD\nCanvas Rendering", fillcolor="#1c4532", color="#48bb78"];
+    export [label="JSON / CSV / JPG\nPersistence", fillcolor="#1c4532", color="#68d391"];
+    done [shape=ellipse, label="Inspection Complete", fillcolor="#22543d", color="#68d391"];
+
+    start -> val -> clahe -> denoise -> detect -> filter_nms -> extract_geom -> calc_sev -> pci_deduct -> render -> export -> done;
+}

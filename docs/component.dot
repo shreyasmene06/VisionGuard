@@ -1,0 +1,67 @@
+
+digraph Component {
+    graph [rankdir=TB, bgcolor="#0f141c", fontname="Helvetica", pad="0.4", nodesep="0.6", ranksep="0.7"];
+    node [shape=component, style="filled", fontname="Helvetica", fontsize=11, fontcolor="#ffffff", penwidth=1.5];
+    edge [fontname="Helvetica", fontsize=9, fontcolor="#a0aec0", color="#4a5568", arrowsize=0.8, penwidth=1.2];
+
+    subgraph cluster_core {
+        label = "Core Package: src/";
+        fontcolor = "#63b3ed";
+        color = "#2b6cb0";
+        style = "dashed,rounded";
+        bgcolor = "#171f2c";
+
+        c_config [label="config.py\n(Enums, Defaults, Weights)", fillcolor="#1a365d", color="#3182ce"];
+        c_prep [label="preprocessing.py\n(ImagePreprocessor)", fillcolor="#1d4044", color="#38b2ac"];
+        c_det [label="detector.py\n(BaseDetector, YOLO, Classical)", fillcolor="#7b341e", color="#ed8936"];
+        c_sev [label="severity.py\n(SeverityEngine)", fillcolor="#44337a", color="#9f7aea"];
+        c_ana [label="analyzer.py\n(RoadAnalyzer, PCI)", fillcolor="#553c9a", color="#b794f4"];
+        c_vis [label="visualization.py\n(RoadVisualizer)", fillcolor="#1c4532", color="#48bb78"];
+        c_met [label="metrics.py\n(evaluate_detections, mAP)", fillcolor="#702459", color="#ed64a6"];
+        c_pipe [label="pipeline.py\n(VisionGuardPipeline)", fillcolor="#2c5282", color="#63b3ed"];
+    }
+
+    subgraph cluster_scripts {
+        label = "CLI Scripts: scripts/";
+        fontcolor = "#f6ad55";
+        color = "#7b341e";
+        style = "dashed,rounded";
+        bgcolor = "#261a1a";
+
+        s_run [label="run_pipeline.py\n(Main Entry Point)", fillcolor="#742a2a", color="#e53e3e"];
+        s_eval [label="evaluate.py\n(Benchmark Runner)", fillcolor="#742a2a", color="#e53e3e"];
+    }
+
+    subgraph cluster_external {
+        label = "External CV & DL Libraries";
+        fontcolor = "#cbd5e0";
+        color = "#4a5568";
+        style = "dashed,rounded";
+        bgcolor = "#1a202c";
+        node [shape=box, style="filled,rounded", fillcolor="#2d3748", color="#718096"];
+
+        ext_cv [label="OpenCV\n(cv2 headless)"];
+        ext_np [label="NumPy"];
+        ext_torch [label="PyTorch / Ultralytics"];
+    }
+
+    // Dependencies
+    s_run -> c_pipe;
+    s_eval -> c_pipe;
+    s_eval -> c_met;
+
+    c_pipe -> c_prep;
+    c_pipe -> c_det;
+    c_pipe -> c_sev;
+    c_pipe -> c_ana;
+    c_pipe -> c_vis;
+    c_pipe -> c_config;
+
+    c_prep -> ext_cv;
+    c_prep -> ext_np;
+    c_det -> ext_cv;
+    c_det -> ext_torch;
+    c_vis -> ext_cv;
+    c_sev -> c_config;
+    c_ana -> c_config;
+}
