@@ -1,0 +1,128 @@
+{
+  "info": {
+    "dataset": "VisionGuard Benchmark Dataset",
+    "version": "1.0",
+    "format": "Pixel coordinates [x1, y1, x2, y2]"
+  },
+  "categories": [
+    "pothole",
+    "longitudinal_crack",
+    "transverse_crack",
+    "alligator_crack",
+    "damaged_pavement",
+    "road_debris"
+  ],
+  "images": [
+    {
+      "file_name": "pothole_01.jpg",
+      "width": 800,
+      "height": 600,
+      "annotations": [
+        {
+          "category": "pothole",
+          "bbox": [
+            390,
+            370,
+            530,
+            470
+          ],
+          "area_px": 14000
+        },
+        {
+          "category": "longitudinal_crack",
+          "bbox": [
+            227,
+            196,
+            252,
+            354
+          ],
+          "area_px": 3950
+        }
+      ]
+    },
+    {
+      "file_name": "pothole_02.jpg",
+      "width": 800,
+      "height": 600,
+      "annotations": [
+        {
+          "category": "pothole",
+          "bbox": [
+            265,
+            320,
+            375,
+            400
+          ],
+          "area_px": 8800
+        },
+        {
+          "category": "pothole",
+          "bbox": [
+            480,
+            415,
+            600,
+            505
+          ],
+          "area_px": 10800
+        }
+      ]
+    },
+    {
+      "file_name": "crack_01.jpg",
+      "width": 800,
+      "height": 600,
+      "annotations": [
+        {
+          "category": "transverse_crack",
+          "bbox": [
+            256,
+            374,
+            534,
+            390
+          ],
+          "area_px": 4448
+        }
+      ]
+    },
+    {
+      "file_name": "crack_02.jpg",
+      "width": 800,
+      "height": 600,
+      "annotations": [
+        {
+          "category": "alligator_crack",
+          "bbox": [
+            350,
+            320,
+            490,
+            460
+          ],
+          "area_px": 19600
+        }
+      ]
+    },
+    {
+      "file_name": "debris_01.jpg",
+      "width": 800,
+      "height": 600,
+      "annotations": [
+        {
+          "category": "road_debris",
+          "bbox": [
+            450,
+            395,
+            510,
+            425
+          ],
+          "area_px": 1800
+        }
+      ]
+    },
+    {
+      "file_name": "clean_road_01.jpg",
+      "width": 800,
+      "height": 600,
+      "annotations": []
+    }
+  ]
+}
