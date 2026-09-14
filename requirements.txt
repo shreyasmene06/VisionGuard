@@ -1,0 +1,16 @@
+# Core Computer Vision & Deep Learning
+torch>=2.2.0
+torchvision>=0.17.0
+ultralytics>=8.1.0
+opencv-python-headless>=4.8.0
+numpy>=1.24.0
+matplotlib>=3.7.0
+Pillow>=10.0.0
+
+# Testing & Quality
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Data & Utilities
+requests>=2.31.0
+tqdm>=4.66.0
